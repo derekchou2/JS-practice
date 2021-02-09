@@ -89,7 +89,7 @@ for (var i = 1; i <= height5; i++) {
 }
 console.log(output5);
 
-console.log(11/5);
+
 console.log("Task F output: \n");
 var width6 = prompt("Please enter the trapezoid width");
 var height6 = prompt("Please enter the trapezoid height");
