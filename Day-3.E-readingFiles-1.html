@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+</head>
+
+<body>
+  <input type="file" id="fileinput" />
+  <script type="text/javascript">
+    function readSingleFile(evt) {
+      //Retrieve the first (and only!) File from the FileList object
+      var f = evt.target.files[0];
+
+      if (f) {
+        var r = new FileReader();
+        r.onload = function (e) {
+          var contents = e.target.result;
+          //                    console.log("Where the content is: ",contents.split("\n"))
+          mainEntry(contents);
+        }
+        console.log(r.readAsText(f));
+      } else {
+        alert("Failed to load file");
+      }
+    }
+    document.getElementById('fileinput').addEventListener('change', readSingleFile, false);
+
+    function mainEntry(fileContentLoaded) {
+      //        this is an example use
+      //        console.log("Where the content is: ",fileContentLoaded.split("\n"))
+      var splitContent = fileContentLoaded.split("\n");
+      //call method
+      //do logic
+
+      var result = new Array();
+
+      //Places all words with no special symbols, except for apostrophes into array result
+      for (var i = 55; i <= 133341; i++) {
+        if (checkString(splitOnSpace(splitContent[i]).before)) {
+          result.push(splitOnSpace(splitContent[i]));
+        }
+      }
+
+      function printHomonyms(word) {
+        var output = "";
+
+        for (var i = 0; i < result.length; i++) {
+          if (result[i].after == word.after) {
+            if (result[i].before == word.before) {
+              continue;
+            }
+            output += result[i].before + " ";
+          }
+        }
+        console.log("Identical:   " + output);
+      }
+
+      var word = prompt("Enter the word you would like to look up").toUpperCase();
+
+      for (var i = 0; i < result.length; i++) {
+        if (word == result[i].before) {
+          console.log("Your word: " + word + "\n");
+
+          var pronunciation = result[i].after;
+
+
+          //pt.1
+          console.log("Pronunciation:   " + result[i].after + "\n");
+
+          //pt.2
+          printHomonyms(result[i]);
+
+
+          break;
+        }
+
+        if (i + 1 == result.length && word != result[i].before) {
+          console.log("Not Found");
+        }
+      }
+
+
+    }
+
+    function splitOnSpace(s) {
+      // reset strings
+      var obj = {
+        before: "",
+        after: ""
+      }
+      // accumulate before space
+      var i = 0;
+      while (i < s.length && s[i] != " ") { obj.before += s[i]; i++; }
+      // skip the space
+      i++;
+      // accumulate after space
+      while (i < s.length) { obj.after += s[i]; i++; }
+      return obj;
+    }
+
+    function checkString(input) {
+      var regex = /^([a-zA-Z ']*)$/;
+      if (input.match(regex)) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+
+  //   function allLetter(inputtxt)
+  // {
+  //  var letters = /^[A-Za-z]+$/;
+  //  if(inputtxt.toString.match(letters))
+  //    {
+  //     return true;
+  //    }
+  //  else
+  //    {
+  //    alert("message");
+  //    return false;
+  //    }
+  // }
+
+
+  </script>
+</body>
+
+</html>
